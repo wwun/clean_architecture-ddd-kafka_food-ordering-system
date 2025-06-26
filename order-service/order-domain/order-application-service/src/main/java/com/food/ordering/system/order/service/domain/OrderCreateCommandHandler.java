@@ -28,19 +28,30 @@ public class OrderCreateCommandHandler {
     // orqesta la ejecución de la lógica para crear una orden, llama al helper, publica eventos, mapea entidad de dominio a un DTO
     // es un handler que se encarga de ejecutar la lógica de negocio específica para el comando de creación de pedidos
 
-    private final OrderCreateHelper orderCreateHelper;
+    private final OrderDomainService orderDomainService;
+
+    private final OrderRepository orderRepository;
+
+    private final CustomerRepository customerRepository;
+
+    private final RestaurantRepository restaurantRepository;
 
     private final OrderDataMapper orderDataMapper;
 
-    private final OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher;
+    private final ApplicationDomainEventPublisher applicationDomainEventPublisher;
 
-    public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper,
-            OrderDataMapper orderDataMapper,
-            OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher) {
-        
-        this.orderCreateHelper = orderCreateHelper;
+    public OrderCreateCommandHandler(OrderDomainService orderDomainService,
+                                     OrderRepository orderRepository,
+                                     CustomerRepository customerRepository,
+                                     RestaurantRepository restaurantRepository,
+                                     OrderDataMapper orderDataMapper,
+                                     ApplicationDomainEventPublisher applicationDomainEventPublisher) {
+        this.orderDomainService = orderDomainService;
+        this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
+        this.restaurantRepository = restaurantRepository;
         this.orderDataMapper = orderDataMapper;
-        this.orderCreatedPaymentRequestMessagePublisher = orderCreatedPaymentRequestMessagePublisher;
+        this.applicationDomainEventPublisher = applicationDomainEventPublisher;
     }
 
     public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
@@ -48,14 +59,15 @@ public class OrderCreateCommandHandler {
         // hace uso de OrderDomainService de order-domain-core para validar y crear el pedido, y OrderDataMapper para mapear los objetos de dominio a DTOs
         // esto lo hace a través de un helper que encapsula la lógica de creación de pedidos
 
-        OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);   // persistOrder se debe al spring proxy aop, por lo qe los annotated metho debe ser invocado por otro bean, en este caso el handler invoca al helpe
-        
-        log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
-
-        // wwun agregar comentario
-        orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
-
-        return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder());
+        checkCustomer(createOrderCommand.getCustomerId());
+        Restaurant restaurant = checkRestaurant(createOrderCommand);
+        Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
+        OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant);
+        Order orderResult = saveOrder(order);
+        log.info("Order is created with id: {}", orderResult.getId().getValue());
+        applicationDomainEventPublisher.publish(orderCreatedEvent);
+        return orderDataMapper.orderToCreateOrderResponse(orderResult);
     }
-    //ver video 22 desde la mitad qe implementa un transactionalEventListener qe es una segunda opción
+    
+    
 }
