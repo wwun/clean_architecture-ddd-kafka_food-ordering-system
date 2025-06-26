@@ -1,0 +1,11 @@
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/BaseId.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/Money.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/OrderId.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/RestaurantId.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/entitiy/AggregateRoot.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/ProductId.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/event/DomainEvent.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/OrderStatus.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/valueobject/CustomerId.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/domain/entitiy/BaseEntity.java
+/home/william/Documents/clean architecture - ddd - kafka/food-ordering-system/common/common-domain/src/main/java/com/food/ordering/system/Main.java
