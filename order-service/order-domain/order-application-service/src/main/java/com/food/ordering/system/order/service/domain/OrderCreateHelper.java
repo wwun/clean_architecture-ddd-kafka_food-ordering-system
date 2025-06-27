@@ -63,17 +63,7 @@ public class OrderCreateHelper {
         return orderCreatedEvent;
     }
 
-    private void checkCustomer(UUID customerId) {
-        //método que se encarga de validar si el cliente existe en la base de datos
-        Optional<Customer> customer = customerRepository.findCustomer(customerId);
-        if (customer.isEmpty()) {
-            log.warn("Could not find customer with customer id: {}", customerId);
-            throw new OrderDomainException("Could not find customer with customer id: " + customer);
-        }
-    }
-
     private Restaurant checkRestaurant(CreateOrderCommand createOrderCommand) {
-        // método que se encarga de validar si el restaurante existe en la base de datos
         Restaurant restaurant = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand);
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findRestaurantInformation(restaurant);
         if (optionalRestaurant.isEmpty()) {
@@ -82,6 +72,14 @@ public class OrderCreateHelper {
                     createOrderCommand.getRestaurantId());
         }
         return optionalRestaurant.get();
+    }
+
+    private void checkCustomer(UUID customerId) {
+        Optional<Customer> customer = customerRepository.findCustomer(customerId);
+        if (customer.isEmpty()) {
+            log.warn("Could not find customer with customer id: {}", customerId);
+            throw new OrderDomainException("Could not find customer with customer id: " + customer);
+        }
     }
 
     private Order saveOrder(Order order) {
