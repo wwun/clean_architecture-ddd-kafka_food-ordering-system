@@ -10,6 +10,9 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Service
 public class PaymentResponseMessageListenerImpl implements PaymentResponseMessageListener{
+
+    //implementan la lógica para manejar esos eventos, normalmente orquestando acciones en la aplicación (por ejemplo, actualizar el estado de la orden)
+
     @Override
     public void paymentCompleted(PaymentResponse paymentResponse) {
 

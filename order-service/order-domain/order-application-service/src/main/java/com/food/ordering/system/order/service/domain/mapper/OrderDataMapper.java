@@ -23,6 +23,8 @@ import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 @Component
 public class OrderDataMapper {
 
+    //convierte entre DTOs (objetos de transferencia de datos) y entidades de dominio
+    
     public Restaurant createOrderCommandToRestaurant(CreateOrderCommand createOrderCommand) {
         return Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))

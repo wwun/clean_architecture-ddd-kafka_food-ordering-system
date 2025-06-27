@@ -8,5 +8,6 @@ public interface OrderCreatedPaymentRequestMessagePublisher extends DomainEventP
     // It extends the DomainEventPublisher interface with OrderCreatedEvent as the event type.
     // Implementations of this interface will handle the logic for publishing the payment request messages to the appropriate message broker or messaging system.
 
+    //usado por OrderCreateCommandHandler para publicar el evento después de crear la orden
     
 }

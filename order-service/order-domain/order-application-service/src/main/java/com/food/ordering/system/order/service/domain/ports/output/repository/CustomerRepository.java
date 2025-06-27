@@ -7,5 +7,7 @@ import com.food.ordering.system.order.service.domain.entity.Customer;
 
 public interface CustomerRepository {
 
+    //interfaces para acceder a la persistencia de órdenes, clientes y restaurantes
+
     Optional<Customer> findCustomer(UUID customerId);
 }
