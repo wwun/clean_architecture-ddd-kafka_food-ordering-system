@@ -1,0 +1,5 @@
+version: '3.7'
+
+networks:
+  food-ordering-system:
+    driver: bridge  #this network will be reacheable by other containers by the container names that shares the same network
