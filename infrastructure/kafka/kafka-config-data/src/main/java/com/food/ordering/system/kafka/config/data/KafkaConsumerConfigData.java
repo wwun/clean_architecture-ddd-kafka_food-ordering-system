@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "kafka-consumer-config")
 public class KafkaConsumerConfigData {
+
+    //contenedor para las propiedades de configuración del consumidor de Kafka. Al igual que KafkaProducerConfigData, se llena automáticamente con los valores definidos en el archivo .yml gracias a las anotaciones de Spring (@ConfigurationProperties). Estas propiedades se usarán para configurar el comportamiento del consumidor de Kafka, como el deserializador, el grupo de consumidores, el tiempo de espera y las políticas de reintento
+
     private String keyDeserializer;
     private String valueDeserializer;
     private String autoOffsetReset;

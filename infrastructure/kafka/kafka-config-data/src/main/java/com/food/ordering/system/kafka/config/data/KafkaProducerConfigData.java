@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "kafka-producer-config")
 public class KafkaProducerConfigData {
+
+    //contenedor" para las propiedades de configuración del productor de Kafka. Se llena automáticamente con los valores definidos en el archivo .yml gracias a las anotaciones de Spring (@ConfigurationProperties)
+
     private String keySerializerClass;
     private String valueSerializerClass;
     private String compressionType;
