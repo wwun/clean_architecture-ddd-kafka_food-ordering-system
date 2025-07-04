@@ -22,6 +22,18 @@
          <artifactId>order-application-service</artifactId>
          <!-- Esta dependencia especifica que el messaging layer depende del application service (order-application-service) -->
       </dependency>
+      <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-consumer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-model</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
