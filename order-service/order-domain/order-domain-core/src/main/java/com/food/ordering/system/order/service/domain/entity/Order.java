@@ -3,9 +3,8 @@ package com.food.ordering.system.order.service.domain.entity;
 import java.util.List;
 import java.util.UUID;
 
+import com.food.ordering.system.domain.entity.AggregateRoot;
 import com.food.ordering.system.domain.valueobject.*;
-
-import com.food.ordering.system.domain.entitiy.AggregateRoot;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;

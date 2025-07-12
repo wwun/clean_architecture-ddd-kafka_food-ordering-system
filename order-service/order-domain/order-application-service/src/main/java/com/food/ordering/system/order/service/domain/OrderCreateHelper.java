@@ -1,6 +1,5 @@
 package com.food.ordering.system.order.service.domain;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,14 +10,13 @@ import com.food.ordering.system.order.service.domain.dto.create.CreateOrderComma
 import com.food.ordering.system.order.service.domain.entity.Customer;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
-import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
+import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,14 +41,18 @@ public class OrderCreateHelper {
 
     private final OrderDataMapper orderDataMapper;  // convierte entre DTO y entidad de dominio
 
+    private final OrderCreatedPaymentRequestMessagePublisher orderCreatedEventDomainEventPublisher;
+
     public OrderCreateHelper(OrderDomainService orderDomainService, OrderRepository orderRepository,
             CustomerRepository customerRepository, RestaurantRepository restaurantRepository,
-            OrderDataMapper orderDataMapper) {
+            OrderDataMapper orderDataMapper,
+            OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher) {
         this.orderDomainService = orderDomainService;
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
         this.restaurantRepository = restaurantRepository;
         this.orderDataMapper = orderDataMapper;
+        this.orderCreatedEventDomainEventPublisher = orderCreatedPaymentRequestMessagePublisher;
     }
     
     @Transactional
@@ -60,7 +62,7 @@ public class OrderCreateHelper {
         checkCustomer(createOrderCommand.getCustomerId());  //valida que el cliente exista en el sistema
         Restaurant restaurant = checkRestaurant(createOrderCommand);    //valida que el restaurante exista y obtiene su información
         Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);    //convierte el comando recibido (DTO) en una entidad de dominio Order
-        OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant);   //aplica las reglas de negocio para validar e iniciar la orden
+        OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant, orderCreatedEventDomainEventPublisher);   //aplica las reglas de negocio para validar e iniciar la orden
         saveOrder(order);
         log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
         return orderCreatedEvent;

@@ -2,7 +2,7 @@ package com.food.ordering.system.order.service.domain.entity;
 
 import java.lang.module.ModuleDescriptor.Builder;
 
-import com.food.ordering.system.domain.entitiy.BaseEntity;
+import com.food.ordering.system.domain.entity.BaseEntity;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;

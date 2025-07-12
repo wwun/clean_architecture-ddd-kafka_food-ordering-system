@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseBody
+    @ResponseBody   //Annotation that indicates a method return value should be bound to the web response body
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDTO handleException(Exception exception){
